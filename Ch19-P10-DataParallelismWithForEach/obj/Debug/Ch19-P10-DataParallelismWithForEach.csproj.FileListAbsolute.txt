@@ -1,0 +1,5 @@
+C:\Users\Ammar Shaukat\Documents\GitHub\Ch19-P10-DataParallelismWithForEach\Ch19-P10-DataParallelismWithForEach\obj\Debug\Ch19-P10-DataParallelismWithForEach.csprojAssemblyReference.cache
+C:\Users\Ammar Shaukat\Documents\GitHub\Ch19-P10-DataParallelismWithForEach\Ch19-P10-DataParallelismWithForEach\obj\Debug\MainWindow.g.cs
+C:\Users\Ammar Shaukat\Documents\GitHub\Ch19-P10-DataParallelismWithForEach\Ch19-P10-DataParallelismWithForEach\obj\Debug\App.g.cs
+C:\Users\Ammar Shaukat\Documents\GitHub\Ch19-P10-DataParallelismWithForEach\Ch19-P10-DataParallelismWithForEach\obj\Debug\Ch19-P10-DataParallelismWithForEach_MarkupCompile.cache
+C:\Users\Ammar Shaukat\Documents\GitHub\Ch19-P10-DataParallelismWithForEach\Ch19-P10-DataParallelismWithForEach\obj\Debug\Ch19-P10-DataParallelismWithForEach_MarkupCompile.lref
