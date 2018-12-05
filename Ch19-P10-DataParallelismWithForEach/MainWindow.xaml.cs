@@ -45,6 +45,9 @@ namespace Ch19_P10_DataParallelismWithForEach
             AllDirectories);
             string newDir = @".\ModifiedPictures";
             Directory.CreateDirectory(newDir);
+
+            //bitmap
+
             // Process the image data in a blocking manner.
             foreach (string currentFile in files)
             {
@@ -54,7 +57,7 @@ namespace Ch19_P10_DataParallelismWithForEach
                     bitmap.RotateFlip(RotateFlipType.Rotate180FlipNone);
                     bitmap.Save(Path.Combine(newDir, filename));
                     // Print out the ID of the thread processing the current image.
-                    this.Title = $"Processing {fielname} on thread {Thread.CurrentThread.ManagedThreadId}";
+                    this.Title = $"Processing {filename} on thread {Thread.CurrentThread.ManagedThreadId}";
             }
         }
     }
