@@ -41,15 +41,26 @@ namespace Ch19_P10_DataParallelismWithForEach
         private void ProcessFiles()
         {
             // Load up all *.jpg files, and make a new folder for the modified data.
-            string[] files = Directory.GetFiles(@".\TestPictures", "*.jpg", SearchOption.
-            AllDirectories);
-            string newDir = @".\ModifiedPictures";
+            string[] files = Directory.GetFiles(@"C:\Users\Ammar Shaukat\Pictures\Saved Pictures", "*.jpg");
+            string newDir = @"C:\Users\Ammar Shaukat\Pictures\ModifiedPictures";
             Directory.CreateDirectory(newDir);
 
-            //bitmap
+            //// Process the image data in a blocking manner.
+            //foreach (string currentFile in files)
+            //{
+            //    string filename = Path.GetFileName(currentFile);
+            //    using (Bitmap bitmap = new Bitmap(currentFile))
+            //    {
+            //        bitmap.RotateFlip(RotateFlipType.Rotate180FlipNone);
+            //        bitmap.Save(Path.Combine(newDir, filename));
+            //        // Print out the ID of the thread processing the current image.
+            //        this.Title = $"Processing {filename} on thread = {Thread.CurrentThread.ManagedThreadId}";
+            //        //Thread.Sleep(500);
+            //    }
+            //}
 
-            // Process the image data in a blocking manner.
-            foreach (string currentFile in files)
+            // Process the image data in a blocking manner. 
+            Parallel.ForEach(files, currentFile =>
             {
                 string filename = Path.GetFileName(currentFile);
                 using (Bitmap bitmap = new Bitmap(currentFile))
@@ -57,9 +68,14 @@ namespace Ch19_P10_DataParallelismWithForEach
                     bitmap.RotateFlip(RotateFlipType.Rotate180FlipNone);
                     bitmap.Save(Path.Combine(newDir, filename));
                     // Print out the ID of the thread processing the current image.
-                    this.Title = $"Processing {filename} on thread {Thread.CurrentThread.ManagedThreadId}";
-            }
+                    this.Dispatcher.Invoke((Action)delegate
+                    {
+                        this.Title = $"Processing {filename} on thread = {Thread.CurrentThread.ManagedThreadId}";
+                    });
+                }
+            });
+
+            this.Title = "Processing Done";
         }
     }
-}
 }
