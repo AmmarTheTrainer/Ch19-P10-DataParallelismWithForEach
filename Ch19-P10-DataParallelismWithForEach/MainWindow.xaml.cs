@@ -36,13 +36,25 @@ namespace Ch19_P10_DataParallelismWithForEach
         }
         private void cmdProcess_Click(object sender, EventArgs e)
         {
-            ProcessFiles();
+            //ProcessFiles();
+            // start a new task to process the files.
+            Task.Factory.StartNew(() =>
+            {
+                ProcessFiles();
+            });
+
+            //
+
+            Task.Run(() =>
+            {
+
+            });
         }
         private void ProcessFiles()
         {
             // Load up all *.jpg files, and make a new folder for the modified data.
-            string[] files = Directory.GetFiles(@"C:\Users\Ammar Shaukat\Pictures\Saved Pictures", "*.jpg");
-            string newDir = @"C:\Users\Ammar Shaukat\Pictures\ModifiedPictures";
+            string[] files = Directory.GetFiles(@"C:\Users\Public\Saved Pictures", "*.jpg");
+            string newDir = @"C:\Users\Public\ModifiedPictures";
             Directory.CreateDirectory(newDir);
 
             //// Process the image data in a blocking manner.
@@ -76,6 +88,11 @@ namespace Ch19_P10_DataParallelismWithForEach
             });
 
             this.Title = "Processing Done";
+        }
+
+        private void cmdProcess_Click(object sender, RoutedEventArgs e)
+        {
+            ProcessFiles();
         }
     }
 }
