@@ -37,42 +37,27 @@ namespace Ch19_P10_DataParallelismWithForEach
         private void cmdProcess_Click(object sender, EventArgs e)
         {
             //ProcessFiles();
+
             // start a new task to process the files.
-            Task.Factory.StartNew(() =>
-            {
-                ProcessFiles();
-            });
+            Task.Factory.StartNew(() => ProcessFiles());
 
-            //
-
-            Task.Run(() =>
-            {
-
-            });
+            //Task.Run(() =>
+            //{
+            //    ProcessFiles();
+            //});
         }
         private void ProcessFiles()
         {
+            MessageBox.Show(" Thread ID = " + Thread.CurrentThread.ManagedThreadId,
+                            " In Process File Method ");
+
             // Load up all *.jpg files, and make a new folder for the modified data.
             string[] files = Directory.GetFiles(@"C:\Users\Public\Saved Pictures", "*.jpg");
             string newDir = @"C:\Users\Public\ModifiedPictures";
             Directory.CreateDirectory(newDir);
 
-            //// Process the image data in a blocking manner.
-            //foreach (string currentFile in files)
-            //{
-            //    string filename = Path.GetFileName(currentFile);
-            //    using (Bitmap bitmap = new Bitmap(currentFile))
-            //    {
-            //        bitmap.RotateFlip(RotateFlipType.Rotate180FlipNone);
-            //        bitmap.Save(Path.Combine(newDir, filename));
-            //        // Print out the ID of the thread processing the current image.
-            //        this.Title = $"Processing {filename} on thread = {Thread.CurrentThread.ManagedThreadId}";
-            //        //Thread.Sleep(500);
-            //    }
-            //}
-
-            // Process the image data in a blocking manner. 
-            Parallel.ForEach(files, currentFile =>
+            // Process the image data in a blocking manner.
+            foreach (string currentFile in files)
             {
                 string filename = Path.GetFileName(currentFile);
                 using (Bitmap bitmap = new Bitmap(currentFile))
@@ -80,18 +65,33 @@ namespace Ch19_P10_DataParallelismWithForEach
                     bitmap.RotateFlip(RotateFlipType.Rotate180FlipNone);
                     bitmap.Save(Path.Combine(newDir, filename));
                     // Print out the ID of the thread processing the current image.
-                    this.Dispatcher.Invoke((Action)delegate
-                    {
-                        this.Title = $"Processing {filename} on thread = {Thread.CurrentThread.ManagedThreadId}";
-                    });
+                    this.Title = $"Processing {filename} on thread = {Thread.CurrentThread.ManagedThreadId}";
+                    //Thread.Sleep(500);
                 }
-            });
+            }
+
+            //// Process the image data in a blocking manner. 
+            //Parallel.ForEach(files, currentFile =>
+            //{
+            //    string filename = Path.GetFileName(currentFile);
+            //    using (Bitmap bitmap = new Bitmap(currentFile))
+            //    {
+            //        bitmap.RotateFlip(RotateFlipType.Rotate180FlipNone);
+            //        bitmap.Save(Path.Combine(newDir, filename));
+            //        // Print out the ID of the thread processing the current image.
+            //        this.Dispatcher.Invoke((Action)delegate
+            //        {
+            //            this.Title = $"Processing {filename} on thread = {Thread.CurrentThread.ManagedThreadId}";
+            //        });
+            //    }
+            //});
 
             this.Title = "Processing Done";
         }
 
         private void cmdProcess_Click(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show("Button CLick done on Thread ID = " + Thread.CurrentThread.ManagedThreadId);
             ProcessFiles();
         }
     }
